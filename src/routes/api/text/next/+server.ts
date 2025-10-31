@@ -19,7 +19,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			}
 		},
 		//openNow: true,
-		pageSize: 2,
+		pageSize: 1,
 		pageToken: token
 	}
 

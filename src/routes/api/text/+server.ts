@@ -19,7 +19,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			}
 		},
 		//openNow: true,
-		pageSize: 2
 	}
 
 	const headers = {
