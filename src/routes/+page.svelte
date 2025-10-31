@@ -194,10 +194,7 @@
 			<h2 class="text-xl font-bold">🎉 Final Choice</h2>
 			<PlaceDetailsCard id={finalPlace} />
 			<p class="text-gray-500 text-sm">(Winner after {round} rounds)</p>
-			<Button
-				onclick={startOver}
-				class="cursor-pointer w-1/2 bg-green-400 hover:bg-green-500"
-			>
+			<Button onclick={startOver} class="cursor-pointer w-full">
 				Start Over
 			</Button>
 		</div>
