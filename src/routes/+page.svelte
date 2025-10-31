@@ -58,14 +58,14 @@
 				nextPageToken = data.nextPageToken;
 				numPlaces = nearbyPlaces.length;
 				currPlace = 0;
-				message = `Found ${numPlaces} nearby "${input}" places within ${radius} miles.`;
+				message = `Found ${numPlaces} nearby "${input}" spots within ${radius} miles.`;
 			} else {
-				console.error("Failed to fetch nearby places");
-				message = "❌ Failed to fetch nearby places.";
+				console.error("Failed to fetch nearby spots");
+				message = "❌ Failed to fetch nearby spots.";
 			}
 		} catch (err) {
 			console.error("Geolocation or fetch error:", err);
-			message = "⚠️ Could not get location or fetch places.";
+			message = "⚠️ Could not get location or fetch spots.";
 		}
 	}
 
@@ -98,7 +98,7 @@
 
 	function handleRoundEnd() {
 		if (maybePlaces.length === 0) {
-			message = "😅 No 'Maybe' places left. Start over!";
+			message = "😅 No 'Maybe' spots left. Start over!";
 			notFound = true;
 			return;
 		}
@@ -145,7 +145,7 @@
 		/>
 
 		<Button onclick={loadNearby} class="cursor-pointer">
-			Search Nearby Places
+			Search Nearby Spots
 		</Button>
 	{/if}
 
@@ -212,7 +212,7 @@
 		<Drawer.Root open>
 			<Drawer.Content>
 				<Drawer.Header>
-					<Drawer.Title>😅 No spots left!</Drawer.Title>
+					<Drawer.Title>😅 No 'maybe' spots left!</Drawer.Title>
 					<Drawer.Description>Start Over!</Drawer.Description>
 				</Drawer.Header>
 				<Drawer.Footer>
