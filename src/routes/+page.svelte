@@ -5,6 +5,7 @@
 	import { Label } from "$lib/components/ui/label";
 	import { getCurrentPositionAsync } from "$lib/utils";
 	import * as Drawer from "$lib/components/ui/drawer";
+	import DarkModeToggle from "$lib/components/DarkModeToggle.svelte";
 
 	let nearbyPlaces: { id: string }[] = $state([]);
 	let nextPageToken: string = $state("");
@@ -13,7 +14,9 @@
 	let numPlaces: number = $state(0);
 	let currPlace: number = $state(0);
 	let maybePlaces: string[] = $state([]);
-	let message: string | null = $state(null); // 💬 inline messages
+	let message: string | null = $state(
+		"Powered by Google's Places API and Places UI Kit!",
+	);
 	let notFound: boolean = $state(false);
 
 	let latitude: number;
@@ -122,7 +125,10 @@
 </script>
 
 <main class="space-y-5 py-5 max-w-4xl mx-5 flex flex-col md:mx-auto">
-	<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
+	<span class="flex flex-row items-center justify-between">
+		<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
+		<DarkModeToggle />
+	</span>
 
 	<!-- Search Controls -->
 	{#if !finalPlace && nearbyPlaces.length === 0}
@@ -151,7 +157,11 @@
 
 	<!-- Message Banner -->
 	{#if message}
-		<p class="text-center text-gray-400 italic">{message}</p>
+		<p class="text-center italic">{message}</p>
+	{/if}
+
+	{#if !finalPlace && nearbyPlaces.length === 0}
+		<PlaceDetailsCard id="ChIJuxwr-xl33IAREkcGhGTb0zI" />
 	{/if}
 
 	{#if !notFound}
