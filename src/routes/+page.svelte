@@ -4,6 +4,7 @@
 	import { Input } from "$lib/components/ui/input";
 	import { Label } from "$lib/components/ui/label";
 	import { getCurrentPositionAsync } from "$lib/utils";
+	import * as Drawer from "$lib/components/ui/drawer";
 
 	let nearbyPlaces: { id: string }[] = $state([]);
 	let nextPageToken: string = $state("");
@@ -13,6 +14,7 @@
 	let currPlace: number = $state(0);
 	let maybePlaces: string[] = $state([]);
 	let message: string | null = $state(null); // 💬 inline messages
+	let notFound: boolean = $state(false);
 
 	let latitude: number;
 	let longitude: number;
@@ -29,7 +31,8 @@
 		maybePlaces = [];
 		currPlace = 0;
 		finalPlace = null;
-		message = null;
+		message = "Loading spots...";
+		notFound = false;
 
 		try {
 			const position = await getCurrentPositionAsync();
@@ -90,12 +93,13 @@
 		round = 1;
 		maybePlaces = [];
 		message = null;
+		notFound = false;
 	}
 
 	function handleRoundEnd() {
 		if (maybePlaces.length === 0) {
 			message = "😅 No 'Maybe' places left. Start over!";
-			startOver();
+			notFound = true;
 			return;
 		}
 
@@ -118,10 +122,10 @@
 </script>
 
 <main class="space-y-5 py-5 max-w-4xl mx-5 flex flex-col md:mx-auto">
+	<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
+
 	<!-- Search Controls -->
 	{#if !finalPlace && nearbyPlaces.length === 0}
-		<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
-
 		<Label for="search">Search</Label>
 		<Input
 			type="search"
@@ -147,37 +151,41 @@
 
 	<!-- Message Banner -->
 	{#if message}
-		<p class="text-center text-gray-700 italic">{message}</p>
+		<p class="text-center text-gray-400 italic">{message}</p>
 	{/if}
 
-	<!-- Progress -->
-	{#if !finalPlace && nearbyPlaces.length > 0}
-		<p class="text-center">Round {round} — {currPlace + 1}/{numPlaces}</p>
-	{/if}
+	{#if !notFound}
+		<!-- Progress -->
+		{#if !finalPlace && nearbyPlaces.length > 0}
+			<p class="text-center">
+				Round {round} — {currPlace + 1}/{numPlaces}
+			</p>
+		{/if}
 
-	<!-- Active Place -->
-	{#if !finalPlace && nearbyPlaces.length > 0 && currPlace < nearbyPlaces.length}
-		<div class="cards">
-			<PlaceDetailsCard id={nearbyPlaces[currPlace].id} />
-		</div>
-	{/if}
+		<!-- Active Place -->
+		{#if !finalPlace && nearbyPlaces.length > 0 && currPlace < nearbyPlaces.length}
+			<div class="cards">
+				<PlaceDetailsCard id={nearbyPlaces[currPlace].id} />
+			</div>
+		{/if}
 
-	<!-- Action Buttons -->
-	{#if !finalPlace && nearbyPlaces.length > 0}
-		<span class="flex flex-row gap-5 justify-center px-2">
-			<Button
-				onclick={() => loadNextPlace(false)}
-				class="cursor-pointer w-1/2 bg-red-400 hover:bg-red-500"
-			>
-				Nope
-			</Button>
-			<Button
-				onclick={() => loadNextPlace(true)}
-				class="cursor-pointer w-1/2 bg-green-400 hover:bg-green-500"
-			>
-				Maybe
-			</Button>
-		</span>
+		<!-- Action Buttons -->
+		{#if !finalPlace && nearbyPlaces.length > 0}
+			<span class="flex flex-row gap-5 justify-center px-2">
+				<Button
+					onclick={() => loadNextPlace(false)}
+					class="cursor-pointer w-1/2 bg-red-400 hover:bg-red-500"
+				>
+					Nope
+				</Button>
+				<Button
+					onclick={() => loadNextPlace(true)}
+					class="cursor-pointer w-1/2 bg-green-400 hover:bg-green-500"
+				>
+					Maybe
+				</Button>
+			</span>
+		{/if}
 	{/if}
 
 	<!-- Final Winner -->
@@ -193,5 +201,26 @@
 				Start Over
 			</Button>
 		</div>
+	{/if}
+
+	{#if notFound}
+		<div class="flex justify-center">
+			<Button onclick={startOver} class="cursor-pointer">
+				Start Over
+			</Button>
+		</div>
+		<Drawer.Root open>
+			<Drawer.Content>
+				<Drawer.Header>
+					<Drawer.Title>😅 No spots left!</Drawer.Title>
+					<Drawer.Description>Start Over!</Drawer.Description>
+				</Drawer.Header>
+				<Drawer.Footer>
+					<Button onclick={startOver} class="cursor-pointer">
+						Start Over
+					</Button>
+				</Drawer.Footer>
+			</Drawer.Content>
+		</Drawer.Root>
 	{/if}
 </main>
