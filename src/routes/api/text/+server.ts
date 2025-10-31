@@ -1,4 +1,4 @@
-import { GOOGLE_MAPS_API_KEY } from '$env/static/private'
+import { PLACES_NEW_API_KEY } from '$env/static/private';
 import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 
@@ -23,7 +23,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const headers = {
 		'Content-Type': 'application/json',
-		'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+		'X-Goog-Api-Key': PLACES_NEW_API_KEY,
 		'X-Goog-FieldMask': 'places.id,nextPageToken'
 	}
 
