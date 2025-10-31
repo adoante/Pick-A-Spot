@@ -13,7 +13,7 @@
 </script>
 
 <!-- Places UI Kit Web Components -->
-<gmp-place-details style="height: 60vh; width: auto">
+<gmp-place-details style="height: 60vh; width: auto" class="shadow-lg">
 	<gmp-place-details-place-request place={id}
 	></gmp-place-details-place-request>
 	<gmp-place-all-content></gmp-place-all-content>

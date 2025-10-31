@@ -6,6 +6,7 @@
 	import { getCurrentPositionAsync } from "$lib/utils";
 	import * as Drawer from "$lib/components/ui/drawer";
 	import DarkModeToggle from "$lib/components/DarkModeToggle.svelte";
+	import { Checkbox } from "$lib/components/ui/checkbox";
 
 	let nearbyPlaces: { id: string }[] = $state([]);
 	let nextPageToken: string = $state("");
@@ -18,11 +19,11 @@
 		"Powered by Google's Places API and Places UI Kit!",
 	);
 	let notFound: boolean = $state(false);
-
 	let latitude: number;
 	let longitude: number;
 	let round: number = $state(1);
 	let finalPlace: string | null = $state(null); // 🏁 final winner
+	let isOpen: boolean = $state(false);
 
 	function milesToMeters(miles: number): number {
 		return miles * 1609.34;
@@ -52,6 +53,7 @@
 					radius: radiusMeters,
 					lat: latitude,
 					lng: longitude,
+					isOpen: isOpen,
 				}),
 			});
 
@@ -126,12 +128,18 @@
 
 <main class="space-y-5 py-5 max-w-4xl mx-5 flex flex-col md:mx-auto">
 	<span class="flex flex-row items-center justify-between">
-		<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
+		<a href="/">
+			<h1 class="text-2xl font-semibold">Pick a Spot!</h1>
+		</a>
 		<DarkModeToggle />
 	</span>
 
 	<!-- Search Controls -->
 	{#if !finalPlace && nearbyPlaces.length === 0}
+		<span class="flex flex-row space-x-3 items-center">
+			<Label for="isOpen" class="p-0">Only Open Spots</Label>
+			<Checkbox bind:checked={isOpen} id="isOpen" />
+		</span>
 		<Label for="search">Search</Label>
 		<Input
 			type="search"

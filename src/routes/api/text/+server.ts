@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { input, radius, lat, lng } = await request.json();
+	const { input, radius, lat, lng, isOpen } = await request.json();
 
 	const url = "https://places.googleapis.com/v1/places:searchText"
 
@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				radius: radius
 			}
 		},
-		//openNow: true,
+		openNow: isOpen,
 	}
 
 	const headers = {
