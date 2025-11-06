@@ -21,4 +21,8 @@ const getCurrentPositionAsync = (options?: PositionOptions): Promise<Geolocation
 	})
 }
 
-export { getCurrentPositionAsync }
+function milesToMeters(miles: number): number {
+	return miles * 1609.34;
+}
+
+export { getCurrentPositionAsync, milesToMeters }
