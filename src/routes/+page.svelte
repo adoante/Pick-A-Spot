@@ -4,10 +4,10 @@
 	import * as Card from "$lib/components/ui/card";
 </script>
 
-<main class="md:space-y-15 space-y-10 py-15 flex flex-col">
+<main class="md:space-y-15 space-y-10 flex flex-col">
 	<!-- Hero Section -->
 	<div
-		class="md:space-y-20 space-y-8 md:py-50 md:px-10 py-10 px-5 border hover:shadow-md transition-shadow shadow-zinc-800 shadow-sm rounded-xl"
+		class="md:space-y-20 space-y-8 md:py-50 md:px-10 py-10 px-5 border hover:shadow-md transition-shadow shadow-zinc-800 shadow-sm rounded-xl bg-background/20 backdrop-blur-sm"
 	>
 		<h1 class="text-5xl font-bold text-center">
 			"I’m fine with anything."
